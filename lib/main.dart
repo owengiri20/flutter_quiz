@@ -10,7 +10,7 @@ class Quizzler extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -38,6 +38,8 @@ class _QuizPageState extends State<QuizPage> {
       children: <Widget>[
         Container(
           child: FlatButton(
+            color: Colors.grey.shade200,
+            padding: EdgeInsets.all(10),
             onPressed: () {
               setState(() {
                 quizBrain.reset();
@@ -63,7 +65,7 @@ class _QuizPageState extends State<QuizPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
-                  color: Colors.white,
+                  color: Colors.black87,
                 ),
               ),
             ),
@@ -131,8 +133,3 @@ class _QuizPageState extends State<QuizPage> {
   }
 }
 
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/
