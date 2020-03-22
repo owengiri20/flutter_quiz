@@ -1,3 +1,3 @@
 
-# Quizzler ❓
+# Flutter Quiz App thing.
 
