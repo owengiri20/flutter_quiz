@@ -25,22 +25,59 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List scoreKeeper = <Icon>[
+  List scoreKeeper = <Icon>[];
 
+  List questions = <String>[
+    'You can lead a cow down stairs but not up stairs.',
+    'Approximately one quarter of human bones are in the feet.',
+    'A slug\'s blood is green.'
   ];
+
+  int questionNumber = 0;
+
+  void nextQuestion() {
+    setState(() {
+      if (questionNumber >= questions.length - 1) {
+      } else {
+        questionNumber++;
+      }
+    });
+  }
+
+  void reset() {
+    setState(() {
+      questionNumber = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        Container(
+          child: FlatButton(
+            onPressed: () {
+              reset();
+            },
+            child: Text(
+              "reset",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          color: Colors.white,
+        ),
         Expanded(
           flex: 5,
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                questions[questionNumber],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -65,12 +102,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
-                setState(() {
-                  scoreKeeper.add(Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  ));
-                });
+                nextQuestion();
               },
             ),
           ),
@@ -89,6 +121,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
+                nextQuestion();
               },
             ),
           ),
