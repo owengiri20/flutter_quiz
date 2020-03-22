@@ -33,13 +33,39 @@ class _QuizPageState extends State<QuizPage> {
     'A slug\'s blood is green.'
   ];
 
+  List answers = <bool>[
+    false,
+    true,
+    true,
+  ];
+
   int questionNumber = 0;
 
-  void nextQuestion() {
+  void nextQuestion(bool pick) {
+    print(answers[questionNumber]);
+
     setState(() {
-      if (questionNumber >= questions.length - 1) {
+      if (questionNumber == questions.length) {
       } else {
+        // check correct
+        if (answers[questionNumber] == pick){
+          setState(() {
+            scoreKeeper.add(Icon(
+              Icons.check,
+              color: Colors.green,
+            ));
+          });
+
+        }else{
+          setState(() {
+            scoreKeeper.add(Icon(
+              Icons.close,
+              color: Colors.red,
+            ));
+          });
+        }
         questionNumber++;
+
       }
     });
   }
@@ -102,7 +128,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
-                nextQuestion();
+                nextQuestion(true);
               },
             ),
           ),
@@ -121,7 +147,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
-                nextQuestion();
+                nextQuestion(false);
               },
             ),
           ),
