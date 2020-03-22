@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quizzler/question.dart';
-import 'question.dart';
+import 'quizBrain.dart';
+
+QuizBrain quizBrain = new QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -27,62 +28,55 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List scoreKeeper = <Icon>[];
 
-  List questions = <Question>[
-    Question(q:'You can lead a cow down stairs but not up stairs.', a: false),
-     Question(q:'Approximately one quarter of human bones are in the feet.', a:true),
-     Question(q:'A slug\'s blood is green.', a:true),
-  ];
+//  void nextQuestion(bool pick) {
+//    setState(() {
+//      if (questionNumber == quizBrain.getQuestionsAmount() -1) {
+//        if (quizBrain.getQuestionAnswer(questionNumber) == pick) {
+//          setState(() {
+//            scoreKeeper.add(Icon(
+//              Icons.check,
+//              color: Colors.green,
+//            ));
+//          });
+//        } else {
+//          setState(() {
+//            scoreKeeper.add(Icon(
+//              Icons.close,
+//              color: Colors.red,
+//            ));
+//          });
+//        }
+//
+//        //TODO: finish
+//      } else {
+//        // check correct
+//        if (quizBrain.getQuestionAnswer(quizBrain.q) == pick) {
+//          setState(() {
+//            scoreKeeper.add(Icon(
+//              Icons.check,
+//              color: Colors.green,
+//            ));
+//          });
+//        } else {
+//          setState(() {
+//            scoreKeeper.add(Icon(
+//              Icons.close,
+//              color: Colors.red,
+//            ));
+//          });
+//        }
+//        quizBrain.nextQuestion();
+//      }
+//    });
+//  }
 
-  int questionNumber = 0;
-
-  void nextQuestion(bool pick) {
-    setState(() {
-      if (questionNumber == questions.length-1) {
-        if (questions[questionNumber].questionAnswer == pick) {
-          setState(() {
-            scoreKeeper.add(Icon(
-              Icons.check,
-              color: Colors.green,
-            ));
-          });
-        } else {
-          setState(() {
-            scoreKeeper.add(Icon(
-              Icons.close,
-              color: Colors.red,
-            ));
-          });
-        }
-      } else {
-        // check correct
-        if (questions[questionNumber].questionAnswer == pick) {
-          setState(() {
-            scoreKeeper.add(Icon(
-              Icons.check,
-              color: Colors.green,
-            ));
-          });
-        } else {
-          setState(() {
-            scoreKeeper.add(Icon(
-              Icons.close,
-              color: Colors.red,
-            ));
-          });
-        }
-        questionNumber++;
-      }
-    });
-  }
-
-  void reset() {
-    setState(() {
-      questionNumber = 0;
-      scoreKeeper.clear();
-    });
-  }
+//  void reset() {
+//    setState(() {
+//      questionNumber = 0;
+//      scoreKeeper.clear();
+//    });
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +87,7 @@ class _QuizPageState extends State<QuizPage> {
         Container(
           child: FlatButton(
             onPressed: () {
-              reset();
+              quizBrain.reset();
             },
             child: Text(
               "reset",
@@ -111,7 +105,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber].questionText,
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -136,7 +130,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
-                nextQuestion(true);
+                quizBrain.nextHandler(true);
               },
             ),
           ),
@@ -155,7 +149,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
-                nextQuestion(false);
+                quizBrain.nextHandler(false);
+
               },
             ),
           ),
