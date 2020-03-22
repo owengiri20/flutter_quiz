@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler/question.dart';
+import 'question.dart';
 
 void main() => runApp(Quizzler());
 
@@ -27,36 +29,42 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List scoreKeeper = <Icon>[];
 
-  List questions = <String>[
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.'
-  ];
-
-  List answers = <bool>[
-    false,
-    true,
-    true,
+  List questions = <Question>[
+    Question(q:'You can lead a cow down stairs but not up stairs.', a: false),
+     Question(q:'Approximately one quarter of human bones are in the feet.', a:true),
+     Question(q:'A slug\'s blood is green.', a:true),
   ];
 
   int questionNumber = 0;
 
   void nextQuestion(bool pick) {
-    print(answers[questionNumber]);
-
     setState(() {
-      if (questionNumber == questions.length) {
-      } else {
-        // check correct
-        if (answers[questionNumber] == pick){
+      if (questionNumber == questions.length-1) {
+        if (questions[questionNumber].questionAnswer == pick) {
           setState(() {
             scoreKeeper.add(Icon(
               Icons.check,
               color: Colors.green,
             ));
           });
-
-        }else{
+        } else {
+          setState(() {
+            scoreKeeper.add(Icon(
+              Icons.close,
+              color: Colors.red,
+            ));
+          });
+        }
+      } else {
+        // check correct
+        if (questions[questionNumber].questionAnswer == pick) {
+          setState(() {
+            scoreKeeper.add(Icon(
+              Icons.check,
+              color: Colors.green,
+            ));
+          });
+        } else {
           setState(() {
             scoreKeeper.add(Icon(
               Icons.close,
@@ -65,7 +73,6 @@ class _QuizPageState extends State<QuizPage> {
           });
         }
         questionNumber++;
-
       }
     });
   }
@@ -73,6 +80,7 @@ class _QuizPageState extends State<QuizPage> {
   void reset() {
     setState(() {
       questionNumber = 0;
+      scoreKeeper.clear();
     });
   }
 
@@ -103,7 +111,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber],
+                questions[questionNumber].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
