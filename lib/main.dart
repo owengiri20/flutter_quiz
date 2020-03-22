@@ -29,54 +29,6 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
 
-//  void nextQuestion(bool pick) {
-//    setState(() {
-//      if (questionNumber == quizBrain.getQuestionsAmount() -1) {
-//        if (quizBrain.getQuestionAnswer(questionNumber) == pick) {
-//          setState(() {
-//            scoreKeeper.add(Icon(
-//              Icons.check,
-//              color: Colors.green,
-//            ));
-//          });
-//        } else {
-//          setState(() {
-//            scoreKeeper.add(Icon(
-//              Icons.close,
-//              color: Colors.red,
-//            ));
-//          });
-//        }
-//
-//        //TODO: finish
-//      } else {
-//        // check correct
-//        if (quizBrain.getQuestionAnswer(quizBrain.q) == pick) {
-//          setState(() {
-//            scoreKeeper.add(Icon(
-//              Icons.check,
-//              color: Colors.green,
-//            ));
-//          });
-//        } else {
-//          setState(() {
-//            scoreKeeper.add(Icon(
-//              Icons.close,
-//              color: Colors.red,
-//            ));
-//          });
-//        }
-//        quizBrain.nextQuestion();
-//      }
-//    });
-//  }
-
-//  void reset() {
-//    setState(() {
-//      questionNumber = 0;
-//      scoreKeeper.clear();
-//    });
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +39,9 @@ class _QuizPageState extends State<QuizPage> {
         Container(
           child: FlatButton(
             onPressed: () {
-              quizBrain.reset();
+              setState(() {
+                quizBrain.reset();
+              });
             },
             child: Text(
               "reset",
@@ -121,6 +75,7 @@ class _QuizPageState extends State<QuizPage> {
             child: FlatButton(
               textColor: Colors.white,
               color: Colors.green,
+              disabledColor: Colors.grey,
               child: Text(
                 'True',
                 style: TextStyle(
@@ -130,7 +85,14 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
-                quizBrain.nextHandler(true);
+
+                setState(() {
+                  if(quizBrain.finish){
+
+                  }else{
+                    quizBrain.nextHandler(true);
+                  }
+                });
               },
             ),
           ),
@@ -139,6 +101,7 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: FlatButton(
+              disabledColor: Colors.grey,
               color: Colors.red,
               child: Text(
                 'False',
@@ -149,14 +112,19 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
-                quizBrain.nextHandler(false);
+                setState(() {
+                  if(quizBrain.finish){
 
+                  }else{
+                    quizBrain.nextHandler(false);
+                  }
+                });
               },
             ),
           ),
         ),
         Row(
-          children: scoreKeeper,
+          children: quizBrain.scoreKeeper,
         )
       ],
     );

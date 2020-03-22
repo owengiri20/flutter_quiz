@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:quizzler/question.dart';
 
 class QuizBrain {
-  int _questionNumber = 0;
+  int correctTotal = 0;
+  int wrongTotal = 0;
+  int totalScore = 0;
+  int _questionNumber = 1;
+  bool finish = false;
+
   List scoreKeeper = <Icon>[];
   List _questions = <Question>[
     Question('Some cats are actually allergic to humans', true),
@@ -45,18 +50,22 @@ class QuizBrain {
   }
 
   void nextQuestion() {
-    if(getQuestionsAmount() < _questionNumber){
+    if(_questionNumber < getQuestionsAmount()-1){
       _questionNumber++;
+    }else{
+      handleFinish();
     }
   }
 
   void updateScore(bool correct) {
     if(correct) {
+      correctTotal++;
       scoreKeeper.add(Icon(
         Icons.check,
         color: Colors.green,
       ));
     }else{
+      wrongTotal ++;
       scoreKeeper.add(Icon(
         Icons.close,
         color: Colors.red,
@@ -68,6 +77,12 @@ class QuizBrain {
     bool correct = getQuestionAnswer() == pick ? true : false;
     updateScore(correct);
     nextQuestion();
+
+  }
+
+  void handleFinish() {
+    finish = true;
+    print("correct: $correctTotal\nwrong: $wrongTotal\ntotal: $totalScore");
   }
 
   int getQuestionNumber () {
@@ -76,7 +91,11 @@ class QuizBrain {
 
   void reset () {
     _questionNumber=0;
+    correctTotal = 0;
+    wrongTotal = 0;
+    totalScore = 0;
     scoreKeeper.clear();
+    finish = false;
   }
 
 
